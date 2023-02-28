@@ -65,12 +65,18 @@ fetch("http://localhost:5678/api/categories")
             console.log("Erreur dans la récupération des donnés de l'API");
         }
     })
-    //On récupère chaque categorie
-    //Auxquelles on applique la fonction createButton
+    //On récupère chaque categorie   
     .then((category) => {
+        //Auxquelles on applique la fonction createButton
         category.forEach((category) => {
-            createButton(category);
+            createButton(category);            
         })
+        //on affiche tous les projets
+        const projects = document.querySelectorAll(".gallery figure");
+        projects.forEach((figure) => {
+            figure.style.display = 'inline';          
+        })
+        
     })
 
     .then((filtration) => {
@@ -82,7 +88,7 @@ fetch("http://localhost:5678/api/categories")
                 // Get et Affiche le data-tag
                 const buttonTag = button.dataset.tag;
                 console.log(buttonTag);
-                //on récupère les projets faites plus haut
+                //on récupère les projets
                 const projects = document.querySelectorAll(".gallery figure");
                 console.log(projects)
 
