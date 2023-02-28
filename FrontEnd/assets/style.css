@@ -156,6 +156,7 @@ li:hover {
 	border: 1px solid #B1663C;
 	color: #B1663C;
     transition: 0.5s ease;
+	cursor: pointer;
 }
 
 .filters-nav button:focus:hover{
@@ -170,6 +171,10 @@ li:hover {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
+}
+
+.gallery figure {
+	display: none;
 }
 
 .gallery img {
