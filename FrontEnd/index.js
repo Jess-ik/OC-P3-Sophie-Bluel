@@ -1,4 +1,32 @@
+// Sélection de la nav Filters
+const navFilters = document.querySelector('.filters-nav');
 
+// Fonction pour créer un bouton dans la nav des filtres
+const createButton = (category) => {
+    const buttonFilters = document.createElement('button');
+    buttonFilters.setAttribute("data-tag", category.name);
+    buttonFilters.setAttribute("data-id", category.id);
+    buttonFilters.innerText = category.name;
+    navFilters.appendChild(buttonFilters);
+}
+
+// On récupère les categories de filtres de l'API
+fetch("http://localhost:5678/api/categories")
+    //Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
+    .then((response) => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            console.log("Erreur dans la récupération des donnés de l'API");
+        }
+    })
+    //On récupère chaque categorie
+    //Auxquelles on applique la fonction createButton
+    .then((category) => {
+        category.forEach((category) => {
+            createButton(category);
+        })
+    })
 
 // Sélection de la galerie HTML
 const gallery = document.querySelector('.gallery');
