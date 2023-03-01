@@ -75,8 +75,7 @@ fetch("http://localhost:5678/api/categories")
         const projects = document.querySelectorAll(".gallery figure");
         projects.forEach((figure) => {
             figure.style.display = 'inline';          
-        })
-        
+        })       
     })
 
     .then((filtration) => {
@@ -85,13 +84,20 @@ fetch("http://localhost:5678/api/categories")
         buttons.forEach((button) => {
             //Pour chaque bouton, au clic
             button.addEventListener("click", function () {
-                // Get et Affiche le data-tag
+                // Get (et Affiche le data-tag)
                 const buttonTag = button.dataset.tag;
-                console.log(buttonTag);
+                //console.log(buttonTag);
                 //on récupère les projets
                 const projects = document.querySelectorAll(".gallery figure");
-                console.log(projects)
-
+                //console.log(projects)
+                
+                //on enlève, pour chaque bouton la classe is-active
+                buttons.forEach((button) =>
+                    button.classList.remove("is-active")
+                );
+                //puis on ajoute la classe active au bouton cliqué
+                this.classList.add("is-active");
+                
                 projects.forEach((figure) => {
                     //pour chaque figure de projet on recupere son tag
                     console.log(figure.getAttribute("data-tag"))
@@ -100,9 +106,11 @@ fetch("http://localhost:5678/api/categories")
                     if (figure.getAttribute("data-tag") === buttonTag) {
                         //on affiche le projet
                         figure.style.display = 'inline';
+                        
                     } else {
                         //on masque les projets hors categorie
                         figure.style.display = 'none';
+                        
                     }
                 });
             })

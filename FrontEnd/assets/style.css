@@ -133,7 +133,7 @@ li:hover {
 	padding: 50px 0;
 }
 
-.filters-nav button{
+button{
 	height: 37px;
 	min-width: 100px;
 	padding: 0 10px;
@@ -147,19 +147,19 @@ li:hover {
 	line-height: 19px;
 }
 
-.filters-nav button:focus{
+.is-active{
 	background-color: #1D6154;
 	color: #FFFFFF;
 }
 
-.filters-nav button:hover{
+button:hover{
 	border: 1px solid #B1663C;
 	color: #B1663C;
     transition: 0.5s ease;
 	cursor: pointer;
 }
 
-.filters-nav button:focus:hover{
+.is-active:hover{
 	background-color: #1D6154;
 	border: 1px solid #1D6154;
 	color: #FFFFFF;
