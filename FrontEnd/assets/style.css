@@ -186,9 +186,7 @@ button:hover{
 	grid-row-gap: 20px;
 }
 
-.gallery figure {
-	display: none;
-}
+
 
 .gallery img {
 	width: 100%;
