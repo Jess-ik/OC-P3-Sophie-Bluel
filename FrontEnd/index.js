@@ -89,7 +89,8 @@ fetch("http://localhost:5678/api/categories")
             })
                 
            
-            
+            // si buttonTag === projects categorie.name
+            // alors createProject
         })
 
     })
