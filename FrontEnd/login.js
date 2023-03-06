@@ -40,7 +40,7 @@ form.addEventListener('submit', function (event) {
             //si les deux champs ne matchent pas
             } else if (response.status === 401) {
                 console.log("Unauthorized")
-                error.innerText = "Erreur dans l'identifiant et le mot de passe";
+                error.innerText = "Erreur dans l'identifiant et/ou le mot de passe";
             //si utilisateur inconnu dans la base
             } else if (response.status === 404){
                 console.log("User not found")
