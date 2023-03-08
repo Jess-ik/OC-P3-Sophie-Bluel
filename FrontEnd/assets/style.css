@@ -513,13 +513,17 @@ footer nav ul {
 	color: #D65353;
 }
 
-.galerie {
+.modale-gallery {
 	border-bottom: 1px solid #B3B3B3;
 	margin-top: 46px;
 	padding-bottom: 46px;
+	display: flex;
+	flex-flow: row wrap;
+	gap: 8px;
+	width: 422px;
 }
 
-.galerie figure {
+.modale-gallery figure {
 	display: flex;
 	flex-direction: column;
 	gap: 3px;

@@ -174,6 +174,10 @@ const adminPage = () => {
   //on enlève les filtres
   document.querySelector(".filters-nav").style.display = "none";
 
+  //on récupère le bouton modifier qui ouvre la modale
+  const modalLink = document.querySelector("#open-modal");
+  modalLink.addEventListener("click", createModal);
+
   //récupération du bouton "logout"
   const logButton = document.querySelector("#logButton");
   console.log(logButton);
@@ -181,48 +185,76 @@ const adminPage = () => {
   logButton.addEventListener("click", logOut);
 };
 
+//Fonction pour créer un projet dans la galerie
+const createModaleProject = (project) => {
+  const figureModalProject = document.createElement("figure");
+  // figureProject.setAttribute("data-tag", project.category.name);
+  // figureProject.setAttribute("data-id", project.id);
+
+  const imageModalProject = document.createElement("img");
+  imageModalProject.src = project.imageUrl;
+  imageModalProject.alt = project.title;
+
+  const figcaptionModalProject = document.createElement("figcaption");
+  figcaptionModalProject.innerText = "éditer";
+
+  figureModalProject.appendChild(imageModalProject);
+  figureModalProject.appendChild(figcaptionModalProject);
+  const modalGallery = document.querySelector(".modale-gallery");
+  modalGallery.appendChild(figureModalProject);
+};
+
+//Ajout des projets
+const getModalProject = async (categoryId) => {
+  // On appelle l'API works
+  await fetch("http://localhost:5678/api/works")
+    //Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        console.log("Erreur dans la récupération des données de l'API");
+      }
+    })
+    //On récupère chaque projet
+    //Auxquels on applique la fonction createProject
+    .then((project) => {
+      project.forEach((project) => {
+        createModaleProject(project);
+      });
+    });
+};
+
+const createModal = () => {
+  //création des div globales
+  const mainBox = document.querySelector("main");
+  mainBox.insertAdjacentHTML(
+    "afterbegin",
+    `<aside id="modal" class="modal" aria-hidden="false" aria-modal="true" role="dialog"  aria-labelledby="modal-title">
+    <div class="modal-box-galerie-photo js-modal-stop">
+      <div class="modal-close"><i class="fa-solid fa-xmark"></i></div>
+      <div class="modal-content">
+        <h2 id="modal-title">Galerie photo</h2>
+        <div class="modale-gallery">
+          
+        </div>
+        <button>Ajouter une photo</button>
+        <a href="" id="galerie-suppr">Supprimer la galerie</a>
+      </div>
+    </div>
+  </aside>`
+  );
+  const closeIcon = document.querySelector(".modal-close");
+  closeIcon.addEventListener("click", closeModal);
+
+  getModalProject();
+};
+
+//Fonction fermeture de la modale au clic sur l'icone OU en dehors de la modale
+const closeModal = () => {
+  document.getElementById("modal").remove();
+};
 // si le token est stocké, on appelle la fonction adminPage et on affiche les éléments admin
 if (token !== null) {
   adminPage();
 }
-
-let modal = null;
-const modalLink = document.querySelector("#open-modal");
-//Empeche la fermeture au click DANS la modale
-const stopPropagation = (e) => {
-  e.stopPropagation();
-};
-//Fonction ouverture de la modale
-const openModal = (e) => {
-  e.preventDefault();
-  const target = document.querySelector("#modal");
-  target.style.display = null;
-  target.removeAttribute("aria-hidden");
-  target.setAttribute("aria-modal", true);
-  modal = target;
-  modal.addEventListener("click", closeModal);
-  const closeButton = document.querySelector(".fa-solid");
-  closeButton.addEventListener("click", closeModal);
-  modal
-    .querySelector(".js-modal-stop")
-    .addEventListener("click", stopPropagation);
-};
-
-//Fonction fermeture de la modale au clic sur l'icone OU en dehors de la modale
-const closeModal = (e) => {
-  e.preventDefault();
-
-  modal.style.display = "none";
-  modal.setAttribute("aria-hidden", true);
-  target.removeAttribute("aria-modal");
-
-  modal.removeEventListener("click", closeModal);
-  closeButton.removeEventListener("click", closeModal);
-  modal
-    .querySelector(".js-modal-stop")
-    .removeEventListener("click", stopPropagation);
-  modal = null;
-};
-
-//Ouverture de la modal au clic sur lien #open-modal
-modalLink.addEventListener("click", openModal);
