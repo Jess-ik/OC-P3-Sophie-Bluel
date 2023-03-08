@@ -464,3 +464,87 @@ footer nav ul {
 .edit-link:hover{
 	text-decoration: underline;
 }
+
+/* STYLE MODAL */
+.modal{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.3);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal-box-galerie-photo {
+	width: 630px;
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 26px 30px;	
+}
+.modal-close {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+.modal-box-galerie-photo i {
+	padding: 6px;
+	cursor: pointer;
+	
+}
+
+.modal button {
+	background-color: #1D6154;
+	color: #fff;
+	width: 237px;
+	margin-top: 38px;
+}
+
+.modal button:hover {
+	background-color: #1D6154;
+	border: 1px solid #1D6154;
+	color: #FFFFFF;
+}
+
+#galerie-suppr {
+	padding: 23px 0;
+	text-decoration: none;
+	color: #D65353;
+}
+
+.galerie {
+	border-bottom: 1px solid #B3B3B3;
+	margin-top: 46px;
+	padding-bottom: 46px;
+}
+
+.galerie figure {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+
+
+.modal-content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.modal-box-galerie-photo img {
+	height: 104px;
+}
+
+#modal-title {
+	font-family: 'Work Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 26px;
+line-height: 30px;
+text-align: center;
+color: #000000;
+}
+

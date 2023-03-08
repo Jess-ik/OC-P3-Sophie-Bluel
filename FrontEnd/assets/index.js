@@ -151,9 +151,9 @@ const adminPage = () => {
   body.insertAdjacentHTML(
     "afterbegin",
     `<div class="edit-bar">
-            <span class="edit"><i class="fa-regular fa-pen-to-square"></i> Mode édition</span>
-            <button>publier les changements</button>
-        </div>`
+        <span class="edit"><i class="fa-regular fa-pen-to-square"></i> Mode édition</span>
+        <button>publier les changements</button>
+    </div>`
   );
 
   //on ajoute le bouton modifier à l'image
@@ -164,7 +164,7 @@ const adminPage = () => {
   //on ajoute le bouton modifier au titre de la gallerie
   galleryTitle.insertAdjacentHTML(
     "afterend",
-    `<a id="openModal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`
+    `<a id="open-modal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`
   );
   //on récupère le bouton login du menu nav
   document.getElementById(
@@ -174,21 +174,55 @@ const adminPage = () => {
   //on enlève les filtres
   document.querySelector(".filters-nav").style.display = "none";
 
-  // mise en place de l'event pour openModal
-  //document.getElementById("openModal").addEventListener("click", modalOpen);
-
   //récupération du bouton "logout"
   const logButton = document.querySelector("#logButton");
   console.log(logButton);
-  //ajout d'un addEventListener au clic sur le bouton
-  logButton.addEventListener("click", () => {
-    //appel de la fonction logout
-    logOut();
-    console.log("token");
-  });
+  //au clic sur le bouton on execute la fonction logout
+  logButton.addEventListener("click", logOut);
 };
 
 // si le token est stocké, on appelle la fonction adminPage et on affiche les éléments admin
 if (token !== null) {
   adminPage();
 }
+
+let modal = null;
+const modalLink = document.querySelector("#open-modal");
+//Empeche la fermeture au click DANS la modale
+const stopPropagation = (e) => {
+  e.stopPropagation();
+};
+//Fonction ouverture de la modale
+const openModal = (e) => {
+  e.preventDefault();
+  const target = document.querySelector("#modal");
+  target.style.display = null;
+  target.removeAttribute("aria-hidden");
+  target.setAttribute("aria-modal", true);
+  modal = target;
+  modal.addEventListener("click", closeModal);
+  const closeButton = document.querySelector(".fa-solid");
+  closeButton.addEventListener("click", closeModal);
+  modal
+    .querySelector(".js-modal-stop")
+    .addEventListener("click", stopPropagation);
+};
+
+//Fonction fermeture de la modale au clic sur l'icone OU en dehors de la modale
+const closeModal = (e) => {
+  e.preventDefault();
+
+  modal.style.display = "none";
+  modal.setAttribute("aria-hidden", true);
+  target.removeAttribute("aria-modal");
+
+  modal.removeEventListener("click", closeModal);
+  closeButton.removeEventListener("click", closeModal);
+  modal
+    .querySelector(".js-modal-stop")
+    .removeEventListener("click", stopPropagation);
+  modal = null;
+};
+
+//Ouverture de la modal au clic sur lien #open-modal
+modalLink.addEventListener("click", openModal);
