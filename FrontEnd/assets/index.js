@@ -176,17 +176,17 @@ const adminPage = () => {
 
   //on récupère le bouton modifier qui ouvre la modale
   const modalLink = document.querySelector("#open-modal");
+  //au click on exécute la fonction createModal
   modalLink.addEventListener("click", createModal);
 
   //récupération du bouton "logout"
   const logButton = document.querySelector("#logButton");
-  console.log(logButton);
   //au clic sur le bouton on execute la fonction logout
   logButton.addEventListener("click", logOut);
 };
 
-//Fonction pour créer un projet dans la galerie
-const createModaleProject = (project) => {
+//Fonction pour créer HTML d'un projet dans la galerie
+const createModalProject = (project) => {
   const figureModalProject = document.createElement("figure");
   // figureProject.setAttribute("data-tag", project.category.name);
   // figureProject.setAttribute("data-id", project.id);
@@ -204,7 +204,7 @@ const createModaleProject = (project) => {
   modalGallery.appendChild(figureModalProject);
 };
 
-//Ajout des projets
+//Ajout des projets dans la galerie
 const getModalProject = async (categoryId) => {
   // On appelle l'API works
   await fetch("http://localhost:5678/api/works")
@@ -217,14 +217,15 @@ const getModalProject = async (categoryId) => {
       }
     })
     //On récupère chaque projet
-    //Auxquels on applique la fonction createProject
+    //Auxquels on applique la fonction createModalProject
     .then((project) => {
       project.forEach((project) => {
-        createModaleProject(project);
+        createModalProject(project);
       });
     });
 };
 
+//Création de la modale
 const createModal = () => {
   //création des div globales
   const mainBox = document.querySelector("main");
@@ -236,16 +237,60 @@ const createModal = () => {
       <div class="modal-content">
         <h2 id="modal-title">Galerie photo</h2>
         <div class="modale-gallery">
-          
+          <!-- Projects will go here -->
         </div>
-        <button>Ajouter une photo</button>
+        <button id="add-photo-button1">Ajouter une photo</button>
         <a href="" id="galerie-suppr">Supprimer la galerie</a>
       </div>
     </div>
+    <div class="modal-box-ajout-photo js-modal-stop modal-non-active">
+        <div class="modal-close">
+          <i class="fa-solid fa-arrow-left"></i
+          ><i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="modal-content">
+          <h2 id="modal-title">Ajout photo</h2>
+          <form action="post" class="ajout-box">
+            <div class="upload-photo-box">
+              <img src="assets/icons/picture-icon.png" alt="icone image" />
+              <button id="add-photo-button2">+ Ajouter photo</button>
+              <p>jpg, png : 4mo max</p>
+            </div>
+            <label for="titre">Titre</label>
+            <input type="text" id="titre" />
+            <label for="categorie">Catégorie</label>
+            <select name="categorie" id="categorie">
+              <option value="objets">Objets</option>
+              <option value="appartements">Appartements</option>
+              <option value="hotels & restaurants">Hotels & restaurants</option>
+            </select>
+          </form>
+          <button id="valider-button">Valider</button>
+        </div>
+      </div>
   </aside>`
   );
+
+  //Au click sur "Ajouter une photo"
+  const addButton1 = document.querySelector("#add-photo-button1");
+  addButton1.addEventListener("click", (event) => {
+    //ajout modal-non-active sur galerie box
+    const galerieModal = document.querySelector(".modal-box-galerie-photo");
+    galerieModal.classList.add("modal-non-active");
+    //remevoe modal-non-active sur ajout box
+    const ajoutModal = document.querySelector(".modal-box-ajout-photo");
+    ajoutModal.classList.remove("modal-non-active");
+  });
+
+  //Fermeture de la modale
   const closeIcon = document.querySelector(".modal-close");
   closeIcon.addEventListener("click", closeModal);
+
+  document.getElementById("modal").addEventListener("click", (event) => {
+    if (event.target === document.getElementById("modal")) {
+      closeModal();
+    }
+  });
 
   getModalProject();
 };
@@ -254,6 +299,7 @@ const createModal = () => {
 const closeModal = () => {
   document.getElementById("modal").remove();
 };
+
 // si le token est stocké, on appelle la fonction adminPage et on affiche les éléments admin
 if (token !== null) {
   adminPage();
