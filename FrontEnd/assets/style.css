@@ -285,6 +285,8 @@ button:hover {
 
 .gallery img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 #contact {
@@ -485,6 +487,11 @@ footer nav ul {
   justify-content: flex-end;
 }
 
+.close-icon,
+.back-icon {
+  cursor: pointer;
+}
+
 .modal-box-galerie-photo i {
   padding: 6px;
   cursor: pointer;
@@ -503,26 +510,38 @@ footer nav ul {
   color: #ffffff;
 }
 
-#galerie-suppr {
+#delete-galery{
   padding: 23px 0;
   text-decoration: none;
   color: #d65353;
 }
 
-.modale-gallery {
+.modal-gallery {
   border-bottom: 1px solid #b3b3b3;
   margin-top: 46px;
   padding-bottom: 46px;
   display: flex;
   flex-flow: row wrap;
   gap: 8px;
-  width: 422px;
+  width: 420px;
 }
 
-.modale-gallery figure {
+.modal-gallery figure {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  height: 120px;
+  padding-bottom: 10px;
+  width: 76px;
+  position: relative;
+}
+
+.trash-icon {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  margin: 6px 0 0 54px;
+  cursor: pointer;
 }
 
 .modal-content {
@@ -532,8 +551,10 @@ footer nav ul {
   align-items: center;
 }
 
-.modal-box-galerie-photo img {
-  height: 104px;
+.modal-project-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 #modal-title {
@@ -569,21 +590,6 @@ footer nav ul {
   font-size: 3em;
   color: #b9c5cc;
 }
-#add-photo-button2 {
-  background: #cbd6dc;
-  font-family: "Work Sans";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  text-align: center;
-
-  color: #306685;
-  width: 173px;
-  height: 36px;
-  border: none;
-  margin-top: 21px;
-}
 
 .ajout-box p {
   margin-top: 7px;
@@ -601,9 +607,18 @@ footer nav ul {
   box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
   height: 51px;
   border: none;
+  padding: 0 28px 0 16px;
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #444444;
 }
 
-.ajout-box label {
+.labelTitle,
+.labelCat {
   padding: 21px 0 10px 0;
 }
 
@@ -624,4 +639,39 @@ footer nav ul {
 
 .modal-non-active {
   display: none;
+}
+
+input[type="file"] {
+  position: fixed;
+  right: 100%;
+  bottom: 100%;
+}
+
+input[type="file"] {
+  position: fixed;
+  right: 100%;
+  bottom: 100%;
+}
+
+.photo-upload-button {
+  width: 173px;
+  height: 36px;
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  background: #cbd6dc;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 36px;
+  text-align: center;
+  color: #306685;
+  border: 1px solid #cbd6dc;
+}
+
+.photo-upload-button:hover {
+  border: 1px solid #306685;
 }
