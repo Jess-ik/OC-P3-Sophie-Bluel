@@ -252,6 +252,127 @@ const createModalProject = (project) => {
   modalGallery.appendChild(figureModalProject);
 };
 
+// FORMULAIRE AJOUT PROJET
+// Séléction des éléments du formulaire
+const formAddWork = document.querySelector(".ajout-box");
+const inputElement = document.querySelector("#title");
+const selectElement = document.querySelector("#category");
+const fileInputElement = document.querySelector("#image");
+const submitButton = document.querySelector("#valider-button");
+const inputFile = document.querySelector("#image");
+
+// Afficher la prévisualisation de l'image à télécharger
+const checkFile = (e) => {
+  e.preventDefault();
+
+  // Constante et fonction pour la lecture de l'image
+  const reader = new FileReader();
+  reader.addEventListener("load", function () {
+    previewImage.src = reader.result;
+  });
+  // Lecture de l'image
+  reader.readAsDataURL(inputFile.files[0]);
+
+  // Appararition et apparence attendue
+  const picture = document.querySelector(".upload-photo-box");
+  const previewImage = document.createElement("img");
+  previewImage.setAttribute("id", "preview_image");
+
+  picture.appendChild(previewImage);
+};
+// Verifier les champs et autoriser validation
+const checkForm = () => {
+  if (
+    inputElement.value !== "" &&
+    selectElement.value !== "" &&
+    fileInputElement.value !== ""
+  ) {
+    submitButton.style.backgroundColor = "#1D6154";
+    submitButton.style.color = "#ffffff";
+  }
+};
+
+// Listener des actions des éléments du formulaire
+inputFile.addEventListener("change", checkFile);
+inputElement.addEventListener("input", checkForm);
+selectElement.addEventListener("input", checkForm);
+fileInputElement.addEventListener("change", checkForm);
+
+// Ajouter un nouveau projet
+const addWork = () => {
+  // Récupération des saisies pour la création du nouvel élément
+  const getPhoto = document.getElementById("image").files[0];
+  //console.log(getPhoto);
+  const getTitle = document.getElementById("title").value;
+  // console.log(getTitle);
+  const getCategory = document.getElementById("category").value;
+  //console.log(getCategory);
+  //const getCategoryID = getCategory.options[getCategory.selectedIndex].getAttribute("data-id");
+  // console.log(getCategoryID);
+
+  // Construction du formData à envoyer
+  let formData = new FormData();
+  formData.append("image", getPhoto);
+  formData.append("title", getTitle);
+  formData.append("category", getCategory);
+  console.log(formData);
+  for (let pair of formData.entries()) {
+    console.log(pair[0] + " - " + pair[1]);
+  }
+
+  // Appel de la fonction fetch avec toutes les informations nécessaires
+  fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+    body: formData,
+  }).then((response) => {
+    if (response.ok) {
+      //getWorks();
+      console.log("Requete acceptée");
+    } else {
+      console.log("Erreur dans la récupération des donnés de l'API");
+    }
+  });
+};
+
+// Fonction pour vérifier si tous les éléments requis ont une valeur
+const validateForm = (e) => {
+  e.preventDefault();
+
+  // cibler les messages
+  const errMessImg = document.querySelector("#error-img");
+  const errMessTitle = document.querySelector("#error-title");
+  const errMessCat = document.querySelector("#error-category");
+
+  // condition de validation
+  if (
+    inputElement.value !== "" &&
+    selectElement.value !== "" &&
+    fileInputElement.value !== ""
+  ) {
+    addWork();
+    // console.log("projet ajouté");
+  }
+
+  // Affichage messages remplissage formulaire
+  if (inputFile.value == "") {
+    errMessImg.innerHTML = "Image obligatoire";
+  } else {
+    errMessImg.innerHTML = "";
+  }
+  if (inputElement.value == "") {
+    errMessTitle.innerHTML = "Titre obligatoire";
+  } else {
+    errMessTitle.innerHTML = "";
+  }
+  if (selectElement.value == "") {
+    errMessCat.innerHTML = "Catégorie obligatoire";
+  } else {
+    errMessCat.innerHTML = "";
+  }
+};
 
 // Ouverture de la modale
 const openModal = () => {
@@ -268,19 +389,21 @@ const openModal = () => {
     //remove modal-non-active sur ajout box
     ajoutModal.classList.remove("modal-non-active");
   });
-  
+
+  //Au click sur bouton "Valider", modale 2
+  document
+    .querySelector("#valider-button")
+    .addEventListener("click", validateForm);
 
   //Au click sur "Supprimer la galerie"
   const deleteGalery = document.querySelector("#delete-galery");
   deleteGalery.addEventListener("click", function (event) {
     event.preventDefault();
-    
 
     // confirmDelete();
     if (confirm("Êtes-vous sûr de vouloir supprimer la galerie?") == true) {
       deleteAllWorks(); // a definir
     }
-    // deleteWork();
   });
 
   //Bouton back, reviens sur modale 1
