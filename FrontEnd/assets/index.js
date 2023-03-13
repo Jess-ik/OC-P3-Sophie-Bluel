@@ -172,19 +172,11 @@ const adminPage = () => {
   );
 
   //on ajoute le bouton modifier à l'image
-  imgSophie.insertAdjacentHTML(
-    "afterend",
-    `<a href="#" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`
-  );
+  imgSophie.insertAdjacentHTML("afterend", `<a href="#" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`);
   //on ajoute le bouton modifier au titre de la gallerie
-  galleryTitle.insertAdjacentHTML(
-    "afterend",
-    `<a id="open-modal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`
-  );
+  galleryTitle.insertAdjacentHTML("afterend", `<a id="open-modal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`);
   //on récupère le bouton login du menu nav
-  document.getElementById(
-    "logButton"
-  ).innerHTML = `<a href="login.html">logout</a>`; //on remplace login par logout
+  document.getElementById("logButton").innerHTML = `<a href="login.html">logout</a>`; //on remplace login par logout
 
   //on enlève les filtres
   document.querySelector(".filters-nav").style.display = "none";
@@ -242,11 +234,16 @@ const createModalProject = (project) => {
     // deleteWork();
   });
 
+  const moveIcon = document.createElement("img");
+  moveIcon.src = "assets/icons/move-icon.png";
+  moveIcon.classList.add("move-icon");
+
   const figcaptionModalProject = document.createElement("figcaption");
   figcaptionModalProject.innerText = "éditer";
 
   figureModalProject.appendChild(imageModalProject);
   figureModalProject.appendChild(trashIcon);
+  figureModalProject.appendChild(moveIcon);
   figureModalProject.appendChild(figcaptionModalProject);
 
   modalGallery.appendChild(figureModalProject);
@@ -282,11 +279,7 @@ const checkFile = (e) => {
 };
 // Verifier les champs et autoriser validation
 const checkForm = () => {
-  if (
-    inputElement.value !== "" &&
-    selectElement.value !== "" &&
-    fileInputElement.value !== ""
-  ) {
+  if (inputElement.value !== "" && selectElement.value !== "" && fileInputElement.value !== "") {
     submitButton.style.backgroundColor = "#1D6154";
     submitButton.style.color = "#ffffff";
   }
@@ -299,38 +292,36 @@ selectElement.addEventListener("input", checkForm);
 fileInputElement.addEventListener("change", checkForm);
 
 // Ajouter un nouveau projet
-const addWork = () => {
+const addWork = async () => {
   // Récupération des saisies pour la création du nouvel élément
   const getPhoto = document.getElementById("image").files[0];
   //console.log(getPhoto);
   const getTitle = document.getElementById("title").value;
   // console.log(getTitle);
   const getCategory = document.getElementById("category").value;
-  //console.log(getCategory);
-  //const getCategoryID = getCategory.options[getCategory.selectedIndex].getAttribute("data-id");
-  // console.log(getCategoryID);
+  console.log(getCategory);
 
   // Construction du formData à envoyer
   let formData = new FormData();
   formData.append("image", getPhoto);
   formData.append("title", getTitle);
   formData.append("category", getCategory);
-  console.log(formData);
-  for (let pair of formData.entries()) {
-    console.log(pair[0] + " - " + pair[1]);
-  }
 
-  // Appel de la fonction fetch avec toutes les informations nécessaires
-  fetch("http://localhost:5678/api/works", {
+  // Appel de l'API
+  await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
       Authorization: "Bearer " + token,
+      Accept: "application/json",
+      // Authorization: "Bearer " + sessionStorage.getItem("token"),
     },
     body: formData,
   }).then((response) => {
     if (response.ok) {
-      //getWorks();
+      getWorks();
+      closeModal();
       console.log("Requete acceptée");
+      return response.json();
     } else {
       console.log("Erreur dans la récupération des donnés de l'API");
     }
@@ -347,11 +338,7 @@ const validateForm = (e) => {
   const errMessCat = document.querySelector("#error-category");
 
   // condition de validation
-  if (
-    inputElement.value !== "" &&
-    selectElement.value !== "" &&
-    fileInputElement.value !== ""
-  ) {
+  if (inputElement.value !== "" && selectElement.value !== "" && fileInputElement.value !== "") {
     addWork();
     // console.log("projet ajouté");
   }
@@ -378,6 +365,7 @@ const validateForm = (e) => {
 const openModal = () => {
   //Active aside
   asideModal.classList.remove("modal-non-active");
+  asideModal.setAttribute("aria-hidden", "false");
   //Active modal 1
   galerieModal.classList.remove("modal-non-active");
 
@@ -388,12 +376,13 @@ const openModal = () => {
     galerieModal.classList.add("modal-non-active");
     //remove modal-non-active sur ajout box
     ajoutModal.classList.remove("modal-non-active");
+    //Fermeture de la modale sur croix
+    const closeIcon2 = document.querySelector(".close-icon-2");
+    closeIcon2.addEventListener("click", closeModal);
   });
 
   //Au click sur bouton "Valider", modale 2
-  document
-    .querySelector("#valider-button")
-    .addEventListener("click", validateForm);
+  document.querySelector("#valider-button").addEventListener("click", validateForm);
 
   //Au click sur "Supprimer la galerie"
   const deleteGalery = document.querySelector("#delete-galery");

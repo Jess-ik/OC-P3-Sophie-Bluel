@@ -468,12 +468,14 @@ footer nav ul {
   align-items: center;
   justify-content: center;
 }
+
 .modal-box-galerie-photo,
 .modal-box-ajout-photo {
   width: 630px;
   background-color: #fff;
   border-radius: 10px;
   padding: 26px 30px;
+  transition: all 5s ease-in-out;
 }
 .modal-box-ajout-photo .modal-close {
   display: flex;
@@ -488,7 +490,7 @@ footer nav ul {
 }
 
 .close-icon,
-.back-icon {
+.close-icon-2, .back-icon {
   cursor: pointer;
 }
 
@@ -534,6 +536,7 @@ footer nav ul {
   padding-bottom: 10px;
   width: 76px;
   position: relative;
+  cursor: pointer;
 }
 
 .trash-icon {
@@ -542,6 +545,24 @@ footer nav ul {
   height: 17px;
   margin: 6px 0 0 54px;
   cursor: pointer;
+}
+
+.move-icon {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  margin: 6px 0 0 34px;
+  cursor: pointer;
+}
+
+.modal-gallery figure .move-icon {
+  visibility: hidden;
+  opacity: 0;
+}
+.modal-gallery figure:hover .move-icon {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.4s;
 }
 
 .modal-content {

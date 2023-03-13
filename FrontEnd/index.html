@@ -6,18 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet" />
     <meta name="description" content="" />
     <link rel="stylesheet" href="./assets/style.css" />
     <script defer src="./assets/index.js"></script>
     <!--Import Font Awesome-->
-    <script
-      src="https://kit.fontawesome.com/9d9c39db54.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/9d9c39db54.js" crossorigin="anonymous"></script>
   </head>
 
   <body>
@@ -38,21 +32,10 @@
       </nav>
     </header>
     <main>
-      <aside
-        id="modal"
-        class="modal modal-non-active"
-        aria-hidden="true"
-        aria-modal="false"
-        role="dialog"
-        aria-labelledby="modal-title"
-      >
+      <aside id="modal" class="modal modal-non-active" aria-hidden="true" aria-modal="false" role="dialog" aria-labelledby="modal-title">
         <div class="modal-box-galerie-photo js-modal-stop modal-non-active">
           <div class="modal-close">
-            <img
-              src="assets/icons/close-icon.png"
-              alt="icone fermer"
-              class="close-icon"
-            />
+            <img src="assets/icons/close-icon.png" alt="icone fermer" class="close-icon" />
           </div>
           <div class="modal-content">
             <h2 id="modal-title">Galerie photo</h2>
@@ -66,25 +49,15 @@
         </div>
         <div class="modal-box-ajout-photo js-modal-stop modal-non-active">
           <div class="modal-close">
-            <img
-              src="assets/icons/back-icon.png"
-              alt="icone retour arrière"
-              class="back-icon"
-            />
-            <img
-              src="assets/icons/close-icon.png"
-              alt="icone fermer"
-              class="close-icon"
-            />
+            <img src="assets/icons/back-icon.png" alt="icone retour arrière" class="back-icon" />
+            <img src="assets/icons/close-icon.png" alt="icone fermer" class="close-icon-2" />
           </div>
           <div class="modal-content">
             <h2 id="modal-title">Ajout photo</h2>
             <form action="post" class="ajout-box">
               <div class="upload-photo-box">
                 <img src="assets/icons/picture-icon.png" alt="icone image" />
-                <label for="image" class="photo-upload-button">
-                  + Ajouter photo</label
-                >
+                <label for="image" class="photo-upload-button"> + Ajouter photo</label>
                 <input id="image" name="image" type="file" />
                 <p>jpg, png : 4mo max</p>
               </div>
@@ -95,11 +68,9 @@
               <label for="category" class="labelCat">Catégorie</label>
               <select name="category" id="category">
                 <option hidden disabled selected value></option>
-                <option value="Objets" data-id="1">Objets</option>
-                <option value="Appartements" data-id="2">Appartements</option>
-                <option value="Hotels & restaurants" data-id="3">
-                  Hotels & restaurants
-                </option>
+                <option value="1" data-id="1">Objets</option>
+                <option value="2" data-id="2">Appartements</option>
+                <option value="3" data-id="3">Hotels & restaurants</option>
               </select>
               <p id="error-category"></p>
               <div class="validate">
@@ -115,21 +86,9 @@
         </figure>
         <article>
           <h2>Designer d'espace</h2>
-          <p>
-            Je raconte votre histoire, je valorise vos idées. Je vous accompagne
-            de la conception à la livraison finale du chantier.
-          </p>
-          <p>
-            Chaque projet sera étudié en commun, de façon à mettre en valeur les
-            volumes, les matières et les couleurs dans le respect de l’esprit
-            des lieux et le choix adapté des matériaux. Le suivi du chantier
-            sera assuré dans le souci du détail, le respect du planning et du
-            budget.
-          </p>
-          <p>
-            En cas de besoin, une équipe pluridisciplinaire peut-être constituée
-            : architecte DPLG, décorateur(trice)
-          </p>
+          <p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+          <p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+          <p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
         </article>
       </section>
       <section id="portfolio">

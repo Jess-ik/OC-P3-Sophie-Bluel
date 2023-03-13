@@ -10,7 +10,7 @@ error.innerText = "";
 
 //fonction redirection
 function goHOme() {
-  document.location.href = "/FrontEnd/index.html";
+  document.location.href = "/index.html";
 }
 
 // On execute la fonction event lorsque le form est soumis
