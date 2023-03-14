@@ -1,19 +1,19 @@
 /* --- Sélection des éléments du DOM --- */
-//Get gallery Mes Projets
+// Get gallery Mes Projets
 const gallery = document.querySelector(".gallery");
-//Get nav Filters
+// Get nav Filters
 const navFilters = document.querySelector(".filters-nav");
 
-//Get modal aside
+// Get modal aside
 const asideModal = document.querySelector("#modal");
-//Get modal-box-galerie-photo = Modale 1
+// Get modal-box-galerie-photo = Modale 1
 const galerieModal = document.querySelector(".modal-box-galerie-photo");
-//Get gallery de la modale 1
+// Get gallery de la modale 1
 const modalGallery = document.querySelector(".modal-gallery");
-//Get modal-box-ajout-photo = Modale 2
+// Get modal-box-ajout-photo = Modale 2
 const ajoutModal = document.querySelector(".modal-box-ajout-photo");
 
-//Fonction pour créer un projet dans la galerie
+// Fonction pour créer un projet dans la galerie
 const createProject = (project) => {
   const figureProject = document.createElement("figure");
   figureProject.setAttribute("data-tag", project.category.name);
@@ -28,7 +28,6 @@ const createProject = (project) => {
 
   figureProject.appendChild(imageProject);
   figureProject.appendChild(figcaptionProject);
-
   gallery.appendChild(figureProject);
 };
 
@@ -41,7 +40,7 @@ const createButton = (category) => {
   navFilters.appendChild(buttonFilters);
 };
 
-// Fonction permet d'effacer tous les éléments enfant d'un élément parent dans le DOM
+// Fonction qui permet d'effacer tous les éléments enfant d'un élément parent dans le DOM
 const dropElement = (parent_element) => {
   // Tant qu'il y a au moins un enfant
   while (parent_element.childNodes.length > 0) {
@@ -51,9 +50,9 @@ const dropElement = (parent_element) => {
 };
 
 // On récupère les works de l'API,
-//si le paramètre catégorie Id est renseigné,
-//on affiche que les works correspondant à cette caégorie
-//Sinon on affiche tout
+// si le paramètre catégorie Id est renseigné,
+// on affiche que les works correspondant à cette caégorie
+// Sinon on affiche tout
 const getWorks = async (categoryId) => {
   // On appelle l'API works
   await fetch("http://localhost:5678/api/works")
@@ -69,15 +68,15 @@ const getWorks = async (categoryId) => {
     //Auxquels on applique la fonction createProject
     .then((project) => {
       // On efface tous les travaux pour avoir une page blanche
-      dropElement(gallery);
-      dropElement(modalGallery);
+      dropElement(gallery); // Sur la gallery
+      dropElement(modalGallery); // Dans la modale
 
       project.forEach((project) => {
         //si categoryId est vide, on affiche tout
         //si categoryId est renseigné, On filtre les works sur la catégorie,
         if (categoryId == project.category.id || categoryId == null) {
-          createProject(project);
-          createModalProject(project);
+          createProject(project); // Créé la galerie section portfolio
+          createModalProject(project); // Créé la galerie dans la modale
         }
       });
     });
@@ -86,7 +85,7 @@ const getWorks = async (categoryId) => {
 // On récupère les categories de filtres de l'API
 const getCategories = async (category) => {
   await fetch("http://localhost:5678/api/categories")
-    //Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
+    // Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -130,39 +129,38 @@ const getCategories = async (category) => {
     });
 };
 
-// de base, on affiche le getWorks sans parametre (on affiche tout) + on affiche les categories
-async function main() {
+// Fonction qui affiche le getWorks sans parametre (on affiche tout) + on affiche toutes les categories
+const main = async () => {
   await getWorks();
   await getCategories();
-}
+};
 
-//A l'ouverture de la page, on execute le getWorks et getCategories
+//A l'ouverture de la page, on execute la fonction main (getWorks et getCategories)
 main();
 
 /* --- Fonctions du mode admin --- */
 // On récupère le token
 const token = window.sessionStorage.getItem("token");
-//console.log(token);
 
 // Fonction pour la déconnection admin
 const logOut = () => {
   //suppression du token de sessionStorage
   sessionStorage.removeItem("token");
-  console.log(token);
+  //console.log(token);
   //redirection vers la page de connexion
   window.location.href = "/login.html";
 };
 
 // Fonction pour créer les éléments du mode admin
 const adminPage = () => {
-  //on récupère le body
+  /* --- Ajout des éléments Admin --- */
+  // Get le body
   const body = document.querySelector("body");
-  //on récupère l'image de Sophie
+  // Get l'image de Sophie
   const imgSophie = document.querySelector("#introduction img");
-  //on récupère le titre de la gallerie
+  // Get le titre de la gallerie
   const galleryTitle = document.querySelector("#portfolio h2");
-
-  //on ajoute la barre du mode edition
+  // on ajoute la barre du mode edition
   body.insertAdjacentHTML(
     "afterbegin",
     `<div class="edit-bar">
@@ -170,36 +168,37 @@ const adminPage = () => {
         <button>publier les changements</button>
     </div>`
   );
-
-  //on ajoute le bouton modifier à l'image
+  // on ajoute le bouton modifier à l'image
   imgSophie.insertAdjacentHTML("afterend", `<a href="#" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`);
-  //on ajoute le bouton modifier au titre de la gallerie
+  // on ajoute le bouton modifier au titre de la gallerie
   galleryTitle.insertAdjacentHTML("afterend", `<a id="open-modal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`);
-  //on récupère le bouton login du menu nav
-  document.getElementById("logButton").innerHTML = `<a href="login.html">logout</a>`; //on remplace login par logout
-
-  //on enlève les filtres
+  // on enlève les filtres
   document.querySelector(".filters-nav").style.display = "none";
 
-  //on récupère le bouton modifier qui ouvre la modale
-  const modalLink = document.querySelector("#open-modal");
-  //au click on exécute la fonction openModal
-  modalLink.addEventListener("click", openModal);
-
-  //récupération du bouton "logout"
+  /* --- Gestion bouton login / logout --- */
+  // on récupère le bouton login du menu nav
+  // on remplace login par logout
+  document.getElementById("logButton").innerHTML = `<a href="login.html">logout</a>`;
+  // récupération du bouton "logout"
   const logButton = document.querySelector("#logButton");
-  //au clic sur le bouton on execute la fonction logout
+  // au clic sur le bouton on execute la fonction logout
   logButton.addEventListener("click", logOut);
+
+  /* --- Gestion bouton 'modifier' + Ouverture modale --- */
+  // on récupère le bouton modifier qui ouvre la modale
+  const modalLink = document.querySelector("#open-modal");
+  // au click on exécute la fonction openModal
+  modalLink.addEventListener("click", openModal);
 };
 
 // Fonction pour supprimer un projet de la modale
-const deleteWork = (workID) => {
+const deleteWork = async (workID) => {
   //si ok
-  fetch("http://localhost:5678/api/works/" + workID, {
+  await fetch("http://localhost:5678/api/works/" + workID, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + sessionStorage.getItem("token"),
+      Authorization: "Bearer " + token,
     },
   });
 
@@ -225,13 +224,9 @@ const createModalProject = (project) => {
 
   trashIcon.addEventListener("click", function (event) {
     event.preventDefault();
-    console.log("coucou");
-    console.log(trashIconID);
-    // confirmDelete();
     if (confirm("Êtes-vous sûr de vouloir supprimer ce projet ?") == true) {
       deleteWork(trashIconID);
     }
-    // deleteWork();
   });
 
   const moveIcon = document.createElement("img");
@@ -245,11 +240,10 @@ const createModalProject = (project) => {
   figureModalProject.appendChild(trashIcon);
   figureModalProject.appendChild(moveIcon);
   figureModalProject.appendChild(figcaptionModalProject);
-
   modalGallery.appendChild(figureModalProject);
 };
 
-// FORMULAIRE AJOUT PROJET
+/* --- FORMULAIRE AJOUT PROJET --- */
 // Séléction des éléments du formulaire
 const formAddWork = document.querySelector(".ajout-box");
 const inputElement = document.querySelector("#title");
@@ -258,26 +252,33 @@ const fileInputElement = document.querySelector("#image");
 const submitButton = document.querySelector("#valider-button");
 const inputFile = document.querySelector("#image");
 
-// Afficher la prévisualisation de l'image à télécharger
-const checkFile = (e) => {
+// Fonction pour afficher la prévisualisation de l'image à télécharger
+const showFile = (e) => {
   e.preventDefault();
 
-  // Constante et fonction pour la lecture de l'image
+  /* --- Fonction apparition image --- */
   const reader = new FileReader();
+  // Lecture de l'image
+  reader.readAsDataURL(inputFile.files[0]);
+  // renvoie la src dans la balise preview
   reader.addEventListener("load", function () {
     previewImage.src = reader.result;
   });
-  // Lecture de l'image
-  reader.readAsDataURL(inputFile.files[0]);
-
-  // Appararition et apparence attendue
-  const picture = document.querySelector(".upload-photo-box");
+  // A l'upload, on fait apparaitre la preview de l'image
+  const previewBox = document.querySelector(".upload-photo-box");
   const previewImage = document.createElement("img");
-  previewImage.setAttribute("id", "preview_image");
+  previewImage.setAttribute("id", "preview-image");
+  // on masque les éléments en dessous
+  const photoUploadButton = document.querySelector(".photo-upload-button");
+  photoUploadButton.style.display = "none";
+  const pictureIcon = document.querySelector(".picture-icon");
+  pictureIcon.style.display = "none";
+  const typeFiles = document.querySelector(".type-files");
+  typeFiles.style.display = "none";
 
-  picture.appendChild(previewImage);
+  previewBox.appendChild(previewImage);
 };
-// Verifier les champs et autoriser validation
+// Fonction pour verifier les champs et autoriser la validation
 const checkForm = () => {
   if (inputElement.value !== "" && selectElement.value !== "" && fileInputElement.value !== "") {
     submitButton.style.backgroundColor = "#1D6154";
@@ -286,20 +287,17 @@ const checkForm = () => {
 };
 
 // Listener des actions des éléments du formulaire
-inputFile.addEventListener("change", checkFile);
+inputFile.addEventListener("change", showFile);
 inputElement.addEventListener("input", checkForm);
 selectElement.addEventListener("input", checkForm);
 fileInputElement.addEventListener("change", checkForm);
 
 // Ajouter un nouveau projet
 const addWork = async () => {
-  // Récupération des saisies pour la création du nouvel élément
+  // Récupération des éléments du formuaire à envoyer à l'API
   const getPhoto = document.getElementById("image").files[0];
-  //console.log(getPhoto);
   const getTitle = document.getElementById("title").value;
-  // console.log(getTitle);
   const getCategory = document.getElementById("category").value;
-  console.log(getCategory);
 
   // Construction du formData à envoyer
   let formData = new FormData();
@@ -313,14 +311,13 @@ const addWork = async () => {
     headers: {
       Authorization: "Bearer " + token,
       Accept: "application/json",
-      // Authorization: "Bearer " + sessionStorage.getItem("token"),
     },
     body: formData,
   }).then((response) => {
     if (response.ok) {
-      getWorks();
-      closeModal();
-      console.log("Requete acceptée");
+      getWorks(); // On actualise les galeries portfolio + modale
+      closeModal(); // On ferme la modale
+      console.log("La requête a été acceptée !");
       return response.json();
     } else {
       console.log("Erreur dans la récupération des donnés de l'API");
@@ -332,18 +329,17 @@ const addWork = async () => {
 const validateForm = (e) => {
   e.preventDefault();
 
-  // cibler les messages
+  // Get messages
   const errMessImg = document.querySelector("#error-img");
   const errMessTitle = document.querySelector("#error-title");
   const errMessCat = document.querySelector("#error-category");
 
-  // condition de validation
+  // Si tous les champs sont remplis, on exécute le addWork
   if (inputElement.value !== "" && selectElement.value !== "" && fileInputElement.value !== "") {
     addWork();
-    // console.log("projet ajouté");
   }
 
-  // Affichage messages remplissage formulaire
+  // Si champs non rempli, affichage des messages d'erreur conrrespondants
   if (inputFile.value == "") {
     errMessImg.innerHTML = "Image obligatoire";
   } else {
@@ -361,27 +357,27 @@ const validateForm = (e) => {
   }
 };
 
-// Ouverture de la modale
+// Ouverture de la modale + action des différents bouton
 const openModal = () => {
-  //Active aside
+  // Active aside
   asideModal.classList.remove("modal-non-active");
   asideModal.setAttribute("aria-hidden", "false");
-  //Active modal 1
+  // Active modal 1
   galerieModal.classList.remove("modal-non-active");
 
-  //Au click sur "Ajouter une photo", modale 2
+  // Au click sur "Ajouter une photo" > modale 2
   const addButton1 = document.querySelector("#add-photo-button1");
   addButton1.addEventListener("click", (event) => {
-    //ajout modal-non-active sur galerie box
+    // Ajout modal-non-active sur galerie box
     galerieModal.classList.add("modal-non-active");
-    //remove modal-non-active sur ajout box
+    // Remove modal-non-active sur ajout box
     ajoutModal.classList.remove("modal-non-active");
-    //Fermeture de la modale sur croix
+    // Fermeture de la modale sur croix
     const closeIcon2 = document.querySelector(".close-icon-2");
     closeIcon2.addEventListener("click", closeModal);
   });
 
-  //Au click sur bouton "Valider", modale 2
+  //Au click sur bouton "Valider" (modale 2), on verifie le form (qui exectue ou non le addWork)
   document.querySelector("#valider-button").addEventListener("click", validateForm);
 
   //Au click sur "Supprimer la galerie"
@@ -389,13 +385,12 @@ const openModal = () => {
   deleteGalery.addEventListener("click", function (event) {
     event.preventDefault();
 
-    // confirmDelete();
     if (confirm("Êtes-vous sûr de vouloir supprimer la galerie?") == true) {
-      deleteAllWorks(); // a definir
+      //deleteAllWorks(); // a definir
     }
   });
 
-  //Bouton back, reviens sur modale 1
+  // Bouton back, reviens sur modale 1
   const backIcon = document.querySelector(".back-icon");
   backIcon.addEventListener("click", (event) => {
     //ajout modal-non-active sur galerie box
@@ -403,15 +398,17 @@ const openModal = () => {
     //remove modal-non-active sur ajout box
     ajoutModal.classList.add("modal-non-active");
   });
-  //Fermeture de la modale sur croix
+  // Fermeture de la modale sur croix
   const closeIcon = document.querySelector(".close-icon");
   closeIcon.addEventListener("click", closeModal);
-  //Fermeture de la modale sur aside
+  // Fermeture de la modale sur aside
   document.getElementById("modal").addEventListener("click", (event) => {
     if (event.target === document.getElementById("modal")) {
       closeModal();
     }
   });
+
+  // On récupère et affiche les projets à l'ouverture de la modale
   getWorks();
 };
 
@@ -420,9 +417,24 @@ const closeModal = () => {
   asideModal.classList.add("modal-non-active");
   galerieModal.classList.add("modal-non-active");
   ajoutModal.classList.add("modal-non-active");
+
+  // Reset le formulaire
+  document.querySelector(".ajout-box").reset();
+  // On enlève l'image de prévisualisation
+  const previewBox = document.querySelector(".upload-photo-box");
+  const previewImage = document.querySelector("#preview-image");
+  previewBox.removeChild(previewImage);
+
+  // on réaffiche les éléments de pictureBox
+  const photoUploadButton = document.querySelector(".photo-upload-button");
+  photoUploadButton.style.display = "";
+  const pictureIcon = document.querySelector(".picture-icon");
+  pictureIcon.style.display = "";
+  const typeFiles = document.querySelector(".type-files");
+  typeFiles.style.display = "";
 };
 
-// si le token est stocké, on appelle la fonction adminPage et on affiche les éléments admin
+// Si le token est stocké, on appelle la fonction adminPage et on affiche les éléments admin
 if (token !== null) {
   adminPage();
 }

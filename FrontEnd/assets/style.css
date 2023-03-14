@@ -135,7 +135,7 @@ table {
   border-spacing: 0;
 }
 
-/** end reset css**/
+/** end reset css **/
 body {
   margin: auto;
   font-family: "Work Sans";
@@ -189,6 +189,11 @@ nav ul {
 nav li {
   padding: 0 10px;
   font-size: 1.2em;
+  cursor: pointer;
+}
+
+nav li:hover {
+  color: #b1663c;
 }
 
 nav li a {
@@ -198,10 +203,6 @@ nav li a {
 }
 
 nav li a:hover {
-  color: #b1663c;
-}
-
-li:hover {
   color: #b1663c;
 }
 
@@ -232,6 +233,8 @@ li:hover {
   margin-bottom: 0.5em;
 }
 
+/** PORTFOLIO STYLES **/
+
 #portfolio h2 {
   text-align: center;
 }
@@ -257,16 +260,16 @@ button {
   line-height: 19px;
 }
 
-.is-active {
-  background-color: #1d6154;
-  color: #ffffff;
-}
-
 button:hover {
   border: 1px solid #b1663c;
   color: #b1663c;
   transition: 0.5s ease;
   cursor: pointer;
+}
+
+.is-active {
+  background-color: #1d6154;
+  color: #ffffff;
 }
 
 .is-active:hover {
@@ -289,6 +292,7 @@ button:hover {
   object-fit: cover;
 }
 
+/** CONTACT STYLES **/
 #contact {
   width: 50%;
   margin: auto;
@@ -490,7 +494,8 @@ footer nav ul {
 }
 
 .close-icon,
-.close-icon-2, .back-icon {
+.close-icon-2,
+.back-icon {
   cursor: pointer;
 }
 
@@ -532,7 +537,7 @@ footer nav ul {
   display: flex;
   flex-direction: column;
   gap: 3px;
-  height: 120px;
+  /* height: 120px; */
   padding-bottom: 10px;
   width: 76px;
   position: relative;
@@ -607,11 +612,6 @@ footer nav ul {
   position: relative;
 }
 
-.fa-2xl {
-  font-size: 3em;
-  color: #b9c5cc;
-}
-
 .ajout-box p {
   margin-top: 7px;
   font-family: "Work Sans";
@@ -634,7 +634,6 @@ footer nav ul {
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
-
   color: #444444;
 }
 
@@ -646,6 +645,7 @@ footer nav ul {
   align-items: center;
   justify-content: center;
 }
+
 .labelTitle,
 .labelCat {
   padding: 21px 0 10px 0;
@@ -705,7 +705,7 @@ input[type="file"] {
   border: 1px solid #306685;
 }
 
-#preview_image {
+#preview-image {
   position: absolute;
   object-fit: contain;
   width: 100%;
