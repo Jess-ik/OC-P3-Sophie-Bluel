@@ -8,16 +8,16 @@ const password = document.getElementById("password");
 const error = document.querySelector(".error-message");
 error.innerText = "";
 
-//fonction redirection
-function goHOme() {
+// Fonction redirection
+function goHome() {
   document.location.href = "/index.html";
 }
 
-// On execute la fonction event lorsque le form est soumis
+// On execute la fonction lorsque le form est soumis
 form.addEventListener("submit", function (event) {
   event.preventDefault();
 
-  //on créer une constante qui récupère les données du form
+  //on créer un objet qui récupère les données du form
   const user = {
     email: email.value,
     password: password.value,
@@ -49,6 +49,9 @@ form.addEventListener("submit", function (event) {
     //on recupere le token dans les donnees du json, on le stock pui on redirige
     .then((data) => {
       sessionStorage.setItem("token", data.token);
-      goHOme();
+      goHome();
+    })
+    .catch((error) => {
+      console.log(error);
     });
 });

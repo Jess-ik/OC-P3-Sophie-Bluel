@@ -199,7 +199,6 @@ nav li:hover {
 nav li a {
   text-decoration: none;
   color: #000000;
-  font-weight: 600;
 }
 
 nav li a:hover {
@@ -435,6 +434,10 @@ footer nav ul {
   color: #000000;
   padding: 0 23px;
 }
+
+.edit-bar button:hover{
+  color: #b1663c;
+}
 #introduction figure {
   display: flex;
   flex-direction: column;
@@ -456,9 +459,14 @@ footer nav ul {
   color: #000000;
 }
 
+.edit-link i{
+  padding-right: 8px;
+}
+
 .edit-link:hover {
   text-decoration: underline;
 }
+
 
 /* STYLE MODAL */
 .modal {
@@ -521,6 +529,7 @@ footer nav ul {
   padding: 23px 0;
   text-decoration: none;
   color: #d65353;
+  cursor: pointer;
 }
 
 .modal-gallery {

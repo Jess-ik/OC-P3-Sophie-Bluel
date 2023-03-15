@@ -53,9 +53,9 @@ const dropElement = (parent_element) => {
 // si le paramètre catégorie Id est renseigné,
 // on affiche que les works correspondant à cette caégorie
 // Sinon on affiche tout
-const getWorks = async (categoryId) => {
+const getWorks = (categoryId) => {
   // On appelle l'API works
-  await fetch("http://localhost:5678/api/works")
+  fetch("http://localhost:5678/api/works")
     //Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
     .then((response) => {
       if (response.ok) {
@@ -79,12 +79,15 @@ const getWorks = async (categoryId) => {
           createModalProject(project); // Créé la galerie dans la modale
         }
       });
+    })
+    .catch((error) => {
+      console.log(error);
     });
 };
 
 // On récupère les categories de filtres de l'API
-const getCategories = async (category) => {
-  await fetch("http://localhost:5678/api/categories")
+const getCategories = (category) => {
+  fetch("http://localhost:5678/api/categories")
     // Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
     .then((response) => {
       if (response.ok) {
@@ -148,7 +151,7 @@ const logOut = () => {
   sessionStorage.removeItem("token");
   //console.log(token);
   //redirection vers la page de connexion
-  window.location.href = "/login.html";
+  window.location.href = "/index.html";
 };
 
 // Fonction pour créer les éléments du mode admin
@@ -169,16 +172,17 @@ const adminPage = () => {
     </div>`
   );
   // on ajoute le bouton modifier à l'image
-  imgSophie.insertAdjacentHTML("afterend", `<a href="#" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`);
+  imgSophie.insertAdjacentHTML("afterend", `<a href="#" class="edit-link"><i class="fa-regular fa-pen-to-square"></i>modifier</a>`);
   // on ajoute le bouton modifier au titre de la gallerie
-  galleryTitle.insertAdjacentHTML("afterend", `<a id="open-modal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i> modifier</a>`);
+  galleryTitle.insertAdjacentHTML("afterend", `<a id="open-modal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i>modifier</a>`);
   // on enlève les filtres
   document.querySelector(".filters-nav").style.display = "none";
+  document.querySelector(".portfolio-title").style.paddingBottom = "76px";
 
   /* --- Gestion bouton login / logout --- */
   // on récupère le bouton login du menu nav
   // on remplace login par logout
-  document.getElementById("logButton").innerHTML = `<a href="login.html">logout</a>`;
+  document.getElementById("logButton").innerHTML = `<a href="index.html">logout</a>`;
   // récupération du bouton "logout"
   const logButton = document.querySelector("#logButton");
   // au clic sur le bouton on execute la fonction logout
@@ -192,14 +196,15 @@ const adminPage = () => {
 };
 
 // Fonction pour supprimer un projet de la modale
-const deleteWork = async (workID) => {
-  //si ok
-  await fetch("http://localhost:5678/api/works/" + workID, {
+const deleteWork = (workID) => {
+  fetch("http://localhost:5678/api/works/" + workID, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
+  }).catch((error) => {
+    console.log(error);
   });
 
   //maj affichage des projets : getWorks();
@@ -217,7 +222,7 @@ const createModalProject = (project) => {
   imageModalProject.classList.add("modal-project-img");
 
   const trashIcon = document.createElement("img");
-  trashIcon.src = "assets/icons/trash-icon.png";
+  trashIcon.src = "assets/icons/trash-icon.svg";
   trashIcon.classList.add("trash-icon");
   trashIcon.setAttribute("data-id", project.id);
   let trashIconID = trashIcon.getAttribute("data-id");
@@ -230,7 +235,7 @@ const createModalProject = (project) => {
   });
 
   const moveIcon = document.createElement("img");
-  moveIcon.src = "assets/icons/move-icon.png";
+  moveIcon.src = "assets/icons/move-icon.svg";
   moveIcon.classList.add("move-icon");
 
   const figcaptionModalProject = document.createElement("figcaption");
@@ -293,7 +298,7 @@ selectElement.addEventListener("input", checkForm);
 fileInputElement.addEventListener("change", checkForm);
 
 // Ajouter un nouveau projet
-const addWork = async () => {
+const addWork = () => {
   // Récupération des éléments du formuaire à envoyer à l'API
   const getPhoto = document.getElementById("image").files[0];
   const getTitle = document.getElementById("title").value;
@@ -306,23 +311,27 @@ const addWork = async () => {
   formData.append("category", getCategory);
 
   // Appel de l'API
-  await fetch("http://localhost:5678/api/works", {
+  fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
       Authorization: "Bearer " + token,
       Accept: "application/json",
     },
     body: formData,
-  }).then((response) => {
-    if (response.ok) {
-      getWorks(); // On actualise les galeries portfolio + modale
-      closeModal(); // On ferme la modale
-      console.log("La requête a été acceptée !");
-      return response.json();
-    } else {
-      console.log("Erreur dans la récupération des donnés de l'API");
-    }
-  });
+  })
+    .then((response) => {
+      if (response.ok) {
+        getWorks(); // On actualise les galeries portfolio + modale
+        closeModal(); // On ferme la modale
+        console.log("Votre projet a bien été ajouté !");
+        return response.json();
+      } else {
+        console.log("Erreur dans la récupération des donnés de l'API");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 // Fonction pour vérifier si tous les éléments requis ont une valeur
@@ -384,9 +393,20 @@ const openModal = () => {
   const deleteGalery = document.querySelector("#delete-galery");
   deleteGalery.addEventListener("click", function (event) {
     event.preventDefault();
-
+    // On ouvre la box de confirmation, si ok on delete
     if (confirm("Êtes-vous sûr de vouloir supprimer la galerie?") == true) {
-      //deleteAllWorks(); // a definir
+      // on récup toutes les figures de la galerie modale
+      const figures = modalGallery.querySelectorAll("figure");
+      //console.log(figures);
+
+      for (let i = 0; i < figures.length; i++) {
+        // On récupère les data-id de chaque figure de la galerie modale
+        const figureID = figures[i].getAttribute("data-id");
+        //console.log(figureID);
+        // on applique la fonction deleteWork a chaque projet
+        deleteWork(figureID);
+      }
+      console.log("La galerie a bien été supprimée !");
     }
   });
 
@@ -423,7 +443,9 @@ const closeModal = () => {
   // On enlève l'image de prévisualisation
   const previewBox = document.querySelector(".upload-photo-box");
   const previewImage = document.querySelector("#preview-image");
-  previewBox.removeChild(previewImage);
+  if (previewImage !== null) {
+    previewBox.removeChild(previewImage);
+  }
 
   // on réaffiche les éléments de pictureBox
   const photoUploadButton = document.querySelector(".photo-upload-button");
