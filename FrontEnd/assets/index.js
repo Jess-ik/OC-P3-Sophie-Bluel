@@ -53,9 +53,9 @@ const dropElement = (parent_element) => {
 // si le paramètre catégorie Id est renseigné,
 // on affiche que les works correspondant à cette caégorie
 // Sinon on affiche tout
-const getWorks = (categoryId) => {
+const getWorks = async (categoryId) => {
   // On appelle l'API works
-  fetch("http://localhost:5678/api/works")
+  await fetch("http://localhost:5678/api/works")
     //Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
     .then((response) => {
       if (response.ok) {
@@ -86,8 +86,8 @@ const getWorks = (categoryId) => {
 };
 
 // Fonction qui récupère les categories de filtres de l'API
-const getCategories = (category) => {
-  fetch("http://localhost:5678/api/categories")
+const getCategories = async (category) => {
+  await fetch("http://localhost:5678/api/categories")
     // Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
     .then((response) => {
       if (response.ok) {
@@ -298,7 +298,7 @@ selectElement.addEventListener("input", checkForm);
 fileInputElement.addEventListener("change", checkForm);
 
 // Ajouter un nouveau projet
-const addWork = () => {
+const addWork = async () => {
   // Récupération des éléments du formuaire à envoyer à l'API
   const getPhoto = document.getElementById("image").files[0];
   const getTitle = document.getElementById("title").value;
@@ -311,7 +311,7 @@ const addWork = () => {
   formData.append("category", getCategory);
 
   // Appel de l'API
-  fetch("http://localhost:5678/api/works", {
+  await fetch("http://localhost:5678/api/works", {
     method: "POST",
     headers: {
       Authorization: "Bearer " + token,
