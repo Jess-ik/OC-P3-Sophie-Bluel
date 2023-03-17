@@ -32,7 +32,7 @@
       </nav>
     </header>
     <main>
-      <aside id="modal" class="modal modal-non-active" aria-hidden="true" aria-modal="false" >
+      <aside id="modal" class="modal modal-non-active" aria-hidden="true" aria-modal="false">
         <div class="modal-box-galerie-photo js-modal-stop modal-non-active">
           <div class="modal-close">
             <img src="assets/icons/close-icon.svg" alt="icone fermer" class="close-icon" />
@@ -57,7 +57,7 @@
               <div class="upload-photo-box">
                 <img src="assets/icons/picture-icon.svg" alt="icone image" class="picture-icon" />
                 <label for="image" class="photo-upload-button"> + Ajouter photo</label>
-                <input id="image" name="image" type="file" />
+                <input id="image" name="image" type="file" accept=".png, .jpg, .jpeg" />
                 <p class="type-files">jpg, png : 4mo max</p>
               </div>
               <p id="error-img" class="error-form"></p>
@@ -66,10 +66,7 @@
               <p id="error-title" class="error-form"></p>
               <label for="category" class="labelCat">Catégorie</label>
               <select name="category" id="category">
-                <option label="empty" hidden disabled selected value></option>
-                <option value="1">Objets</option>
-                <option value="2">Appartements</option>
-                <option value="3">Hotels & restaurants</option>
+                <option label=" " hidden disabled selected value></option>
               </select>
               <p id="error-category" class="error-form"></p>
               <div class="validate">

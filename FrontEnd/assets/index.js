@@ -12,6 +12,8 @@ const galerieModal = document.querySelector(".modal-box-galerie-photo");
 const modalGallery = document.querySelector(".modal-gallery");
 // Get modal-box-ajout-photo = Modale 2
 const ajoutModal = document.querySelector(".modal-box-ajout-photo");
+// Get select du form ajout photo
+const selectForm = document.querySelector("#category");
 
 // Fonction pour créer un projet dans la galerie
 const createProject = (project) => {
@@ -38,6 +40,13 @@ const createButton = (category) => {
   buttonFilters.setAttribute("data-id", category.id);
   buttonFilters.innerText = category.name;
   navFilters.appendChild(buttonFilters); 
+};
+
+const createOption = (category) => {
+  const optionForm = document.createElement("option");
+  optionForm.setAttribute("value", category.id); 
+  optionForm.innerText = category.name;
+  selectForm.appendChild(optionForm); 
 };
 
 // Fonction qui permet d'effacer tous les éléments enfant d'un élément parent dans le DOM
@@ -101,6 +110,7 @@ const getCategories = async (category) => {
       //Auxquelles on applique la fonction createButton
       category.forEach((category) => {
         createButton(category);
+        createOption(category);
       });
     })
 
