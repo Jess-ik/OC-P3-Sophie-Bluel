@@ -435,7 +435,7 @@ footer nav ul {
   padding: 0 23px;
 }
 
-.edit-bar button:hover{
+.edit-bar button:hover {
   color: #b1663c;
 }
 #introduction figure {
@@ -459,14 +459,13 @@ footer nav ul {
   color: #000000;
 }
 
-.edit-link i{
+.edit-link i {
   padding-right: 8px;
 }
 
 .edit-link:hover {
   text-decoration: underline;
 }
-
 
 /* STYLE MODAL */
 .modal {
@@ -592,7 +591,7 @@ footer nav ul {
   object-fit: cover;
 }
 
-#modal-title {
+.modal-title {
   font-family: "Work Sans";
   font-style: normal;
   font-weight: 400;
@@ -604,7 +603,7 @@ footer nav ul {
 
 #ajout-box {
   width: 420px;
-  padding: 36px 0 47px 0;
+  padding: 36px 0 30px 0;
   display: flex;
   flex-flow: column;
 }
@@ -620,8 +619,6 @@ footer nav ul {
   margin-bottom: 10px;
   position: relative;
 }
-
-
 
 #ajout-box input,
 #ajout-box select {
@@ -664,7 +661,7 @@ footer nav ul {
   height: 36px;
   border: none;
   color: #ffffff;
-  margin-bottom: 25px auto;
+  margin: 25px auto 0px;
 }
 
 .modal-non-active {
@@ -722,7 +719,6 @@ input[type="file"] {
   font-size: 10px;
   line-height: 12px;
 }
-
 
 .type-files {
   margin-top: 7px;

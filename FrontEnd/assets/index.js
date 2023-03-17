@@ -37,7 +37,7 @@ const createButton = (category) => {
   buttonFilters.setAttribute("data-tag", category.name);
   buttonFilters.setAttribute("data-id", category.id);
   buttonFilters.innerText = category.name;
-  navFilters.appendChild(buttonFilters);
+  navFilters.appendChild(buttonFilters); 
 };
 
 // Fonction qui permet d'effacer tous les éléments enfant d'un élément parent dans le DOM
