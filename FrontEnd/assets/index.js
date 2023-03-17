@@ -49,7 +49,7 @@ const dropElement = (parent_element) => {
   }
 };
 
-// On récupère les works de l'API,
+// Fonction qui récupère les works de l'API :
 // si le paramètre catégorie Id est renseigné,
 // on affiche que les works correspondant à cette caégorie
 // Sinon on affiche tout
@@ -85,7 +85,7 @@ const getWorks = (categoryId) => {
     });
 };
 
-// On récupère les categories de filtres de l'API
+// Fonction qui récupère les categories de filtres de l'API
 const getCategories = (category) => {
   fetch("http://localhost:5678/api/categories")
     // Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
@@ -142,6 +142,12 @@ const main = async () => {
 main();
 
 /* --- Fonctions du mode admin --- */
+// Get le body
+const body = document.querySelector("body");
+// Get l'image de Sophie
+const imgSophie = document.querySelector("#introduction img");
+// Get le titre de la gallerie
+const galleryTitle = document.querySelector("#portfolio h2");
 // On récupère le token
 const token = window.sessionStorage.getItem("token");
 
@@ -151,18 +157,12 @@ const logOut = () => {
   sessionStorage.removeItem("token");
   //console.log(token);
   //redirection vers la page de connexion
-  window.location.href = "/index.html";
+  window.location.href = "./index.html";
 };
 
 // Fonction pour créer les éléments du mode admin
 const adminPage = () => {
-  /* --- Ajout des éléments Admin --- */
-  // Get le body
-  const body = document.querySelector("body");
-  // Get l'image de Sophie
-  const imgSophie = document.querySelector("#introduction img");
-  // Get le titre de la gallerie
-  const galleryTitle = document.querySelector("#portfolio h2");
+  /* --- Ajout des éléments Admin --- */ 
   // on ajoute la barre du mode edition
   body.insertAdjacentHTML(
     "afterbegin",
@@ -180,11 +180,10 @@ const adminPage = () => {
   document.querySelector(".portfolio-title").style.paddingBottom = "76px";
 
   /* --- Gestion bouton login / logout --- */
-  // on récupère le bouton login du menu nav
-  // on remplace login par logout
-  document.getElementById("logButton").innerHTML = `<a href="index.html">logout</a>`;
-  // récupération du bouton "logout"
+  // récupération du bouton "login/logout"
   const logButton = document.querySelector("#logButton");
+  // et on remplace login par logout
+  logButton.innerHTML = `<a href="./index.html">logout</a>`; 
   // au clic sur le bouton on execute la fonction logout
   logButton.addEventListener("click", logOut);
 
@@ -250,7 +249,7 @@ const createModalProject = (project) => {
 
 /* --- FORMULAIRE AJOUT PROJET --- */
 // Séléction des éléments du formulaire
-const formAddWork = document.querySelector(".ajout-box");
+const formAddWork = document.querySelector("#ajout-box");
 const inputElement = document.querySelector("#title");
 const selectElement = document.querySelector("#category");
 const fileInputElement = document.querySelector("#image");
@@ -283,7 +282,8 @@ const showFile = (e) => {
 
   previewBox.appendChild(previewImage);
 };
-// Fonction pour verifier les champs et autoriser la validation
+
+// Fonction pour verifier les champs et "activer" le bouton de validation
 const checkForm = () => {
   if (inputElement.value !== "" && selectElement.value !== "" && fileInputElement.value !== "") {
     submitButton.style.backgroundColor = "#1D6154";
@@ -374,20 +374,21 @@ const openModal = () => {
   // Active modal 1
   galerieModal.classList.remove("modal-non-active");
 
-  // Au click sur "Ajouter une photo" > modale 2
+  // Au click sur "Ajouter une photo" > active modale 2
   const addButton1 = document.querySelector("#add-photo-button1");
   addButton1.addEventListener("click", (event) => {
-    // Ajout modal-non-active sur galerie box
+    // Ajout modal-non-active sur galerie box (modale 1)
     galerieModal.classList.add("modal-non-active");
-    // Remove modal-non-active sur ajout box
+    // Remove modal-non-active sur ajout box (modale 2)
     ajoutModal.classList.remove("modal-non-active");
-    // Fermeture de la modale sur croix
+    // Fermeture de la modale sur croix de modale  2
     const closeIcon2 = document.querySelector(".close-icon-2");
     closeIcon2.addEventListener("click", closeModal);
   });
 
-  //Au click sur bouton "Valider" (modale 2), on verifie le form (qui exectue ou non le addWork)
-  document.querySelector("#valider-button").addEventListener("click", validateForm);
+  //Au click sur bouton "Valider" (modale 2), on verifie le form (validateForm ; qui exectue ou non le addWork)
+  //document.querySelector("#valider-button").addEventListener("click", validateForm);
+  formAddWork.addEventListener("submit", validateForm);
 
   //Au click sur "Supprimer la galerie"
   const deleteGalery = document.querySelector("#delete-galery");
@@ -438,8 +439,8 @@ const closeModal = () => {
   galerieModal.classList.add("modal-non-active");
   ajoutModal.classList.add("modal-non-active");
 
-  // Reset le formulaire
-  document.querySelector(".ajout-box").reset();
+  /*--- On reset le formulaire ---*/
+  document.querySelector("#ajout-box").reset();
   // On enlève l'image de prévisualisation
   const previewBox = document.querySelector(".upload-photo-box");
   const previewImage = document.querySelector("#preview-image");
@@ -454,6 +455,9 @@ const closeModal = () => {
   pictureIcon.style.display = "";
   const typeFiles = document.querySelector(".type-files");
   typeFiles.style.display = "";
+
+  // on reinitialise le bouton valider
+  submitButton.style.backgroundColor = "#a7a7a7";
 };
 
 // Si le token est stocké, on appelle la fonction adminPage et on affiche les éléments admin

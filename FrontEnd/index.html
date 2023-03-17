@@ -53,17 +53,17 @@
           </div>
           <div class="modal-content">
             <h2 id="modal-title">Ajout photo</h2>
-            <form action="post" class="ajout-box">
+            <form action="post" id="ajout-box">
               <div class="upload-photo-box">
-                <img src="assets/icons/picture-icon.png" alt="icone image" class="picture-icon" />
+                <img src="assets/icons/picture-icon.svg" alt="icone image" class="picture-icon" />
                 <label for="image" class="photo-upload-button"> + Ajouter photo</label>
                 <input id="image" name="image" type="file" />
                 <p class="type-files">jpg, png : 4mo max</p>
               </div>
-              <p id="error-img"></p>
+              <p id="error-img" class="error-form"></p>
               <label for="title" class="labelTitle">Titre</label>
               <input type="text" name="title" id="title" required />
-              <p id="error-title"></p>
+              <p id="error-title" class="error-form"></p>
               <label for="category" class="labelCat">Catégorie</label>
               <select name="category" id="category">
                 <option hidden disabled selected value></option>
@@ -71,7 +71,7 @@
                 <option value="2">Appartements</option>
                 <option value="3">Hotels & restaurants</option>
               </select>
-              <p id="error-category"></p>
+              <p id="error-category" class="error-form"></p>
               <div class="validate">
                 <button id="valider-button">Valider</button>
               </div>
