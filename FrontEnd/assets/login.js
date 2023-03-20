@@ -18,7 +18,7 @@ form.addEventListener("submit", function (event) {
   event.preventDefault();
 
   //on créer un objet qui récupère les données du form
-  const user = {
+  let user = {
     email: email.value,
     password: password.value,
   };
