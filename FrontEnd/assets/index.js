@@ -39,14 +39,14 @@ const createButton = (category) => {
   buttonFilters.setAttribute("data-tag", category.name);
   buttonFilters.setAttribute("data-id", category.id);
   buttonFilters.innerText = category.name;
-  navFilters.appendChild(buttonFilters); 
+  navFilters.appendChild(buttonFilters);
 };
 
 const createOption = (category) => {
   const optionForm = document.createElement("option");
-  optionForm.setAttribute("value", category.id); 
+  optionForm.setAttribute("value", category.id);
   optionForm.innerText = category.name;
-  selectForm.appendChild(optionForm); 
+  selectForm.appendChild(optionForm);
 };
 
 // Fonction qui permet d'effacer tous les éléments enfant d'un élément parent dans le DOM
@@ -121,8 +121,8 @@ const getCategories = async (category) => {
         //Pour chaque bouton, au clic
         button.addEventListener("click", function () {
           // Get (et Affiche le data-tag)
-          let buttonTag = button.dataset.tag;
-          console.log(buttonTag);
+          // let buttonTag = button.dataset.tag;
+          // console.log(buttonTag);
 
           //Get catégorie id
           let categorieId = button.getAttribute("data-id");
@@ -142,13 +142,15 @@ const getCategories = async (category) => {
     });
 };
 
-// Fonction qui affiche le getWorks sans parametre (on affiche tout) + on affiche toutes les categories
+// Fonction qui affiche le getWorks sans parametre (on affiche tout)
+// + on affiche toutes les categories
 const main = async () => {
   await getWorks();
   await getCategories();
 };
 
-//A l'ouverture de la page, on execute la fonction main (getWorks et getCategories)
+//A l'ouverture de la page,
+//on execute la fonction main (getWorks et getCategories)
 main();
 
 /* --- Fonctions du mode admin --- */
@@ -172,7 +174,7 @@ const logOut = () => {
 
 // Fonction pour créer les éléments du mode admin
 const adminPage = () => {
-  /* --- Ajout des éléments Admin --- */ 
+  /* --- Ajout des éléments Admin --- */
   // on ajoute la barre du mode edition
   body.insertAdjacentHTML(
     "afterbegin",
@@ -182,9 +184,19 @@ const adminPage = () => {
     </div>`
   );
   // on ajoute le bouton modifier à l'image
-  imgSophie.insertAdjacentHTML("afterend", `<a href="#" class="edit-link"><i class="fa-regular fa-pen-to-square"></i>modifier</a>`);
+  imgSophie.insertAdjacentHTML(
+    "afterend",
+    `<a href="#" class="edit-link">
+      <i class="fa-regular fa-pen-to-square"></i>modifier
+    </a>`
+  );
   // on ajoute le bouton modifier au titre de la gallerie
-  galleryTitle.insertAdjacentHTML("afterend", `<a id="open-modal" href="#modal" class="edit-link"><i class="fa-regular fa-pen-to-square"></i>modifier</a>`);
+  galleryTitle.insertAdjacentHTML(
+    "afterend",
+    `<a id="open-modal" href="#modal" class="edit-link">
+      <i class="fa-regular fa-pen-to-square"></i>modifier
+    </a>`
+  );
   // on enlève les filtres
   document.querySelector(".filters-nav").style.display = "none";
   document.querySelector(".portfolio-title").style.paddingBottom = "76px";
@@ -193,7 +205,7 @@ const adminPage = () => {
   // récupération du bouton "login/logout"
   const logButton = document.querySelector("#logButton");
   // et on remplace login par logout
-  logButton.innerHTML = `<a href="./index.html">logout</a>`; 
+  logButton.innerHTML = `<a href="./index.html">logout</a>`;
   // au clic sur le bouton on execute la fonction logout
   logButton.addEventListener("click", logOut);
 
@@ -205,8 +217,8 @@ const adminPage = () => {
 };
 
 // Fonction pour supprimer un projet de la modale
-const deleteWork = (workID) => {
-  fetch("http://localhost:5678/api/works/" + workID, {
+const deleteWork = async (workID) => {
+  await fetch("http://localhost:5678/api/works/" + workID, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -298,6 +310,8 @@ const checkForm = () => {
   if (inputElement.value !== "" && selectElement.value !== "" && fileInputElement.value !== "") {
     submitButton.style.backgroundColor = "#1D6154";
     submitButton.style.color = "#ffffff";
+  } else {
+    return console.log("Formulaire incomplet");
   }
 };
 
@@ -310,9 +324,9 @@ fileInputElement.addEventListener("change", checkForm);
 // Ajouter un nouveau projet
 const addWork = async () => {
   // Récupération des éléments du formuaire à envoyer à l'API
-  const getPhoto = document.getElementById("image").files[0];
-  const getTitle = document.getElementById("title").value;
-  const getCategory = document.getElementById("category").value;
+  let getPhoto = document.getElementById("image").files[0];
+  let getTitle = document.getElementById("title").value;
+  let getCategory = document.getElementById("category").value;
 
   // Construction du formData à envoyer
   let formData = new FormData();
@@ -394,9 +408,18 @@ const openModal = () => {
     // Fermeture de la modale sur croix de modale  2
     const closeIcon2 = document.querySelector(".close-icon-2");
     closeIcon2.addEventListener("click", closeModal);
+    // Bouton back, reviens sur modale 1
+    const backIcon = document.querySelector(".back-icon");
+    backIcon.addEventListener("click", (event) => {
+      //ajout modal-non-active sur galerie box
+      galerieModal.classList.remove("modal-non-active");
+      //remove modal-non-active sur ajout box
+      ajoutModal.classList.add("modal-non-active");
+    });
   });
 
-  //Au click sur bouton "Valider" (modale 2), on verifie le form (validateForm ; qui exectue ou non le addWork)
+  //Au click sur bouton "Valider" (modale 2),
+  //on verifie le form (validateForm ; qui exectue ou non le addWork)
   //document.querySelector("#valider-button").addEventListener("click", validateForm);
   formAddWork.addEventListener("submit", validateForm);
 
@@ -421,14 +444,6 @@ const openModal = () => {
     }
   });
 
-  // Bouton back, reviens sur modale 1
-  const backIcon = document.querySelector(".back-icon");
-  backIcon.addEventListener("click", (event) => {
-    //ajout modal-non-active sur galerie box
-    galerieModal.classList.remove("modal-non-active");
-    //remove modal-non-active sur ajout box
-    ajoutModal.classList.add("modal-non-active");
-  });
   // Fermeture de la modale sur croix
   const closeIcon = document.querySelector(".close-icon");
   closeIcon.addEventListener("click", closeModal);
