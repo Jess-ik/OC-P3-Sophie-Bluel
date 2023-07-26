@@ -64,7 +64,7 @@ const dropElement = (parent_element) => {
 // Sinon on affiche tout
 const getWorks = async (categoryId) => {
   // On appelle l'API works
-  await fetch("http://localhost:5678/api/works")
+  await fetch("https://oc-p3-sophie-bluel-back.onrender.com/api/works")
     //Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
     .then((response) => {
       if (response.ok) {
@@ -96,7 +96,7 @@ const getWorks = async (categoryId) => {
 
 // Fonction qui récupère les categories de filtres de l'API
 const getCategories = async (category) => {
-  await fetch("http://localhost:5678/api/categories")
+  await fetch("https://oc-p3-sophie-bluel-back.onrender.com/api/categories")
     // Si le fetch fonctionne on récupère les données en .json; Sinon on affiche une erreur
     .then((response) => {
       if (response.ok) {
@@ -218,7 +218,7 @@ const adminPage = () => {
 
 // Fonction pour supprimer un projet de la modale
 const deleteWork = async (workID) => {
-  await fetch("http://localhost:5678/api/works/" + workID, {
+  await fetch("https://oc-p3-sophie-bluel-back.onrender.com/api/works/" + workID, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -335,7 +335,7 @@ const addWork = async () => {
   formData.append("category", getCategory);
 
   // Appel de l'API
-  await fetch("http://localhost:5678/api/works", {
+  await fetch("https://oc-p3-sophie-bluel-back.onrender.com/api/works", {
     method: "POST",
     headers: {
       Authorization: "Bearer " + token,

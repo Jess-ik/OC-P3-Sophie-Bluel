@@ -24,7 +24,7 @@ form.addEventListener("submit", function (event) {
   };
 
   //on appele l'API login a laquelle on POST nos données rentrées
-  fetch("http://localhost:5678/api/users/login", {
+  fetch("https://oc-p3-sophie-bluel-back.onrender.com/api/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
